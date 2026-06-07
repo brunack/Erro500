@@ -1,83 +1,20 @@
-import hashlib
-import os
+import csv
+import crip
 
-# ─────────────────────────────────────────
-#  CRIPTOGRAFIA
-# ─────────────────────────────────────────
+inventario = {
+    "01": {'ID': "01", 'nome': "Teclado",'marca': "Red Dragon", 'quantidade': 10, 'preco': 150.00, 'importado': False},
+    "02": {'ID': "02", 'nome': "Mouse", 'marca': "Red Dragon", 'quantidade': 20, 'preco':  89.90, 'importado': True },
+}
 
-def hash1(l):
-    criptografado = hashlib.sha256(l.encode()).hexdigest()
-    return criptografado
-
-def cifra_cezar_plus(c):
-    cifra = list(c)
-    for _ in range(len(c)):
-        atual = cifra[_]
-        nova = chr(ord(atual) + 3)
-        cifra[_] = nova
-    return ''.join(cifra)
-
-def cifra_cezar_reduce(c):
-    cifra = list(c)
-    for _ in range(len(c)):
-        atual = cifra[_]
-        nova = chr(ord(atual) - 3)
-        cifra[_] = nova
-    return ''.join(cifra)
-
-# ─────────────────────────────────────────
-#  ARQUIVO  (formato: usuario_hash:senha_hash)
-# ─────────────────────────────────────────
-
-NOME_ARQUIVO = 'login.txt'
-
-def carregar_usuarios():
-    """Lê login.txt e retorna dicionário {usuario_hash: senha_hash}."""
-    usuarios = {}
-    if not os.path.exists(NOME_ARQUIVO) or os.path.getsize(NOME_ARQUIVO) == 0:
-        return usuarios
-
-    with open(NOME_ARQUIVO, 'r') as arquivo:
-        for linha in arquivo.read().splitlines():
-            if ':' in linha:
-                usuario_hash, senha_hash = linha.split(':', 1)
-                usuarios[usuario_hash] = senha_hash
-
-    return usuarios
-
-def salvar_usuario(usuario_hash, senha_hash):
-    """Adiciona um novo par usuario_hash:senha_hash no arquivo."""
-    with open(NOME_ARQUIVO, 'a') as arquivo:
-        arquivo.write(usuario_hash + ':' + senha_hash + '\n')
-
-# ─────────────────────────────────────────
-#  CADASTRO
-# ─────────────────────────────────────────
-
-def cadastrar():
-    print('\n[ CADASTRO ]')
-    novo_usuario = input('Nome do usuário: ')
-    nova_senha   = input('Senha          : ')
-
-    # Verifica se usuario já existe
-    usuarios = carregar_usuarios()
-    usuario_hash = hash1(cifra_cezar_plus(novo_usuario))
-
-    if usuario_hash in usuarios:
-        print('[ ! ] Esse usuário já existe.')
-        return
-
-    senha_hash = hash1(cifra_cezar_plus(nova_senha))
-
-    salvar_usuario(usuario_hash, senha_hash)
-    print(f'[ ✓ ] Usuário "{novo_usuario}" cadastrado com sucesso!')
-
+def salvar_csv(caminho: str = inventario) -> None:
+    "Salva o catálogo atual no arquivo CSV com separador ';'."
+    with open(caminho, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f, delimiter=";")
+        writer.writerow(["ID","Marca", "Nome", "Quantidade", "Preço", "Importado"])
 
 # ─────────────────────────────────────────
 #  CADASTRO - PoDRuto
 # ─────────────────────────────────────────
-inventario = {}
-
 def add_produto(inventario):
     print('\n[ PRODUTO ]')
     try:
@@ -87,6 +24,7 @@ def add_produto(inventario):
             return
 
         nome = input('Nome do produto: ')
+        marca = input('Marca do produto: ')
         quantidade = input('Quantidade do produto: ')
         preco = float(input('Preço do produto: '))
         importado = bool(input('Importado? [S/N] ')).upper()
@@ -96,6 +34,7 @@ def add_produto(inventario):
             importado = True
         inventario[id_produto] = {'ID': id_produto,
                                   'nome': nome,
+                                  'marca': marca,
                                   'quantidade': quantidade,
                                   'preco': preco,
                                   'importado': importado
@@ -105,7 +44,6 @@ def add_produto(inventario):
     except ValueError:
         print('ERROR, Entrada invalida!!!, ID e quantidade precisam ser numeros inteiros, e o preço deve ser numero, '
               'e o importado deve ser "S" OU "N"')
-
 
 def remov_produto(inventario):
     print('\n[REMOVEDO DI PRODUTO ]')
@@ -119,19 +57,40 @@ def remov_produto(inventario):
     except ValueError:
         print('VALOR INVALIDO')
 
-def atualizar(inventario):
+def atualizar_produto(inventario, id_produto, nome, marca, quantidade, preco, importado):
+    inventario[id_produto]['nome']       = nome
+    inventario[id_produto]['marca']      = marca
+    inventario[id_produto]['quantidade'] = quantidade
+    inventario[id_produto]['preco']      = preco
+    inventario[id_produto]['importado']  = importado
+    print(f"Produto '{id_produto}' atualizado com sucesso.")
 
-def busca_inventario(inventario):
+def solicitar_atualizacao(inventario):
+    """Solicita ao usuário o ID do produto e os novos valores."""
 
+    id_produto = input("Digite o ID do produto que deseja atualizar: ")
 
-# ADICIONANDO PRODUTO AO BANCO DE DADOS CSV
+    if id_produto not in inventario:
+        print(f"Produto '{id_produto}' não encontrado no inventário.")
+        return
 
-arquivo_csv = 'inventario.csv'
+    print(f"\nDados atuais: {inventario[id_produto]}")
+    print("Informe os novos valores:\n")
 
+    nome       = input("Novo nome: ")
+    marca      = input("Nova marca: ")
+    quantidade = int(input("Nova quantidade: "))
+    preco      = float(input("Novo preço: "))
+    importado  = input("Importado? (s/n): ").strip().lower() == 's'
 
-# ─────────────────────────────────────────
-#  LOGIN
-# ─────────────────────────────────────────
+    atualizar_produto(inventario, id_produto, nome, marca, quantidade, preco, importado)
+
+def valor_total_estoque(quantidade: int, preco: float) -> float:
+    total: float = float(quantidade) * preco
+    return total
+
+valor_total_estoque()
+
 
 def login():
     print('\n[ LOGIN ]')

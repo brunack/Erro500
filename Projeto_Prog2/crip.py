@@ -29,10 +29,10 @@ def cifra_cezar_reduce(c):
 #  LEITURA - TXT
 # ─────────────────────────────────────────
 
-NOME_ARQUIVO = 'login.txt'
+NOME_ARQUIVO = 'login.py'
 
 def carregar_usuarios():
-    """Lê login.txt e retorna dicionário {usuario_hash: senha_hash}."""
+    """Lê login.py e retorna dicionário {usuario_hash: senha_hash}."""
     usuarios = {}
     if not os.path.exists(NOME_ARQUIVO) or os.path.getsize(NOME_ARQUIVO) == 0:
         return usuarios

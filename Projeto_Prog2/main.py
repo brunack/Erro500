@@ -168,3 +168,5 @@ def cadastro_crude():
             break
         else:
             print('[ ! ] Opção inválida.')
+
+cadastro_crude()

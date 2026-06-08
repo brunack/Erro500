@@ -1,5 +1,5 @@
 import csv
-import crip
+from crip import *
 
 inventario = {
     "01": {'ID': "01", 'nome': "Teclado",'marca': "Red Dragon", 'quantidade': 10, 'preco': 150.00, 'importado': False},
@@ -140,3 +140,31 @@ def menu():
             print('[ ! ] Opção inválida.')
             
 menu()
+#MENU PARA CADASTRO - REMOÇÃO - ALTERAÇÃO.
+def cadastro_crude():
+    while True:
+        print('ESCOLHA UMA DA OPÇÕES ABAIXO!')
+        print('[1]PARA ADICIONAR PRODUTO')
+        print('[2]PARA ATUALIZAR PRODUTO')
+        print('[3]PARA REMOVER PRODUTO')
+        print('[4]VALOR TORAL DO ESTOQUE')
+        print('[5]SAIR E SALVAR')
+
+        opcao = input('Digite a opção desejada: ')
+
+        if opcao == '1':
+            add_produto()
+        elif opcao == '2':
+            solicitar_atualizacao()
+        elif opcao == '3':
+            remov_produto()
+        elif opcao == '4':
+            valor_total_estoque()
+        elif opcao == '5':
+            salvar_produto()
+        elif opcao == '6':
+            print('Até mais!')
+
+            break
+        else:
+            print('[ ! ] Opção inválida.')

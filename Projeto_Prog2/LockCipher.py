@@ -18,7 +18,7 @@ def cifra_cezar_plus(c):
     cifra = list(c)
     for _ in range(len(c)):
         atual = cifra[_]
-        nova = chr(ord(atual) + 3)
+        nova = chr(ord(atual) + 60)
         cifra[_] = nova
     return ''.join(cifra)
 
@@ -26,7 +26,7 @@ def cifra_cezar_reduce(c):
     cifra = list(c)
     for _ in range(len(c)):
         atual = cifra[_]
-        nova = chr(ord(atual) - 3)
+        nova = chr(ord(atual) - 60)
         cifra[_] = nova
     return ''.join(cifra)
 
@@ -109,12 +109,6 @@ def login():
 def salvar_personagem(listinhacsv, personagems):
     """Salva o dicionario em CSV usando a biblioteca para proteger os dados."""
     try:
-        if len(personagems) > 100:
-            personagems = merge_sort(personagems)
-        else:
-            personagems = bubble_sort(personagems)
-
-
         with open(listinhacsv, 'w', newline='', encoding='utf-8') as f:
             # Substitui o .join() pelo writer
             writer = csv.writer(f, delimiter=';')
@@ -158,6 +152,7 @@ def carregar_personagems(listacsv):
 
                 personagens[id_personagem] = [nome, habilidade, pr, special, lendario]
             print('Personagem(s) carregados com sucesso!')
+            time.sleep(1)
             return personagens
     except FileNotFoundError:
         print('Arquivo de personagens não encontrado, Iniciando criaçao de arquivo.')

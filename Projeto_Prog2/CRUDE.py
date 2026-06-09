@@ -37,10 +37,13 @@ def remov_personagem(inventario):
             personagem_removido = inventario.pop(id_produto)
 
             print(f"Personagem '{personagem_removido[0]}' removido com sucesso!")
+            time.sleep(1)
         else:
             print('Personagem não encontrado!')
+            time.sleep(1)
     except ValueError:
         print('VALOR INVÁLIDO. Digite apenas números inteiros.')
+        time.sleep(1)
 
 def atualizar_personagem(personagens, id_personagem, nome, habilidade, pr, special, lendario):
     personagens[id_personagem] = [nome, habilidade, pr, special, lendario]
@@ -53,26 +56,29 @@ def solicitar_atualizacao(personagens):
     except ValueError:
         print('ERROR, o ID deve ser um número inteiro.!!!')
         return
+    try:
+        if id_personagem not in personagens:
+            print(f"Personagem '{id_personagem}' não encontrado na galeria.")
+            return
 
-    if id_personagem not in personagens:
-        print(f"Personagem '{id_personagem}' não encontrado na galeria.")
-        return
+        print(f"\nDados atuais: {personagens[id_personagem]}")
+        print("Informe os novos valores:\n")
 
-    print(f"\nDados atuais: {personagens[id_personagem]}")
-    print("Informe os novos valores:\n")
+        nome = input('Novo nome do personagem: ')
+        habilidade = input('Nova habilidade especial: ')
+        pr = float(input('Novo percentual de rendimento: '))
+        special = int(input('Novo Special Atk: '))
+        resp = input('Lendário? [S/N]: ').strip().upper()
+        lendario = True if resp == 'S' else False
 
-    nome = input('Novo nome do personagem: ')
-    habilidade = input('Nova habilidade especial: ')
-    pr = float(input('Novo percentual de rendimento: '))
-    special = int(input('Novo Special Atk: '))
-    resp = input('Lendário? [S/N]: ').strip().upper()
-    lendario = True if resp == 'S' else False
-
-    atualizar_personagem(personagens, id_personagem, nome, habilidade, pr, special, lendario)
+        atualizar_personagem(personagens, id_personagem, nome, habilidade, pr, special, lendario)
+    except Exception as e:
+        print(f'ERROR, Entrada invalida!!!, ID e SpecialAtk precisam ser numeros inteiros, o PR precisa ser um numero '
+              f'e o Lendario deve ser "S" OU "N": {e}')
 
 def valor_total_personagem(valor):
     """Retorna o número total de personagens da galeria."""
     quantidade = len(valor)
-    print(f"\nQuantidade total de personagens: {quantidade}\n")
+    print(f"\nQuantidade total de personagens: {quantidade}")
     time.sleep(1.5)
 

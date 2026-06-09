@@ -30,6 +30,7 @@ def cadastro_crude(personagens):
         print('[3]PARA REMOVER PERSONAGEM')
         print('[4]VALOR TOTAL DE PERSONAGEM(S)')
         print('[5]LISTA DETALHADA DE PERSONAGEM(S)')
+        print('[6]BUSCA LINEAR POR NOME')
         print('[0]SAIR E SALVAR')
 
         opcao = input('Digite a opção desejada: ')
@@ -44,8 +45,11 @@ def cadastro_crude(personagens):
             valor_total_personagem(personagens)
         elif opcao == '5':
             listar_detalhada(personagens)
+        elif opcao == '6':
+            busca_linear(personagens)
         elif opcao == '0':
             salvar_personagem('inventario.csv', personagens)
+        
 
             break
         else:

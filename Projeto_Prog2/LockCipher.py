@@ -4,6 +4,7 @@ import hashlib
 import os
 import time
 import csv
+from busca_ordenacao import *
 
 # ─────────────────────────────────────────
 #  FUNÇÕES DE CRIPTOGRAFIA
@@ -108,6 +109,12 @@ def login():
 def salvar_personagem(listinhacsv, personagems):
     """Salva o dicionario em CSV usando a biblioteca para proteger os dados."""
     try:
+        if len(personagems) > 100:
+            personagems = merge_sort(personagems)
+        else:
+            personagems = bubble_sort(personagems)
+
+
         with open(listinhacsv, 'w', newline='', encoding='utf-8') as f:
             # Substitui o .join() pelo writer
             writer = csv.writer(f, delimiter=';')

@@ -133,7 +133,7 @@ def msort_personagens(L):
 # 3. GERENCIADOR DE ORDENAÇÃO (Requisito do Professor)
 # ──────────────────────────────────────────────────────────────────
 def ordenar_automatico(personagens):
-    """Transforma o dicionário em lista e escolhe o método de busca."""
+    """Transforma o dicionário em lista e escolhe o melhor metodo"""
     lista_personagens = list(personagens.items())
 
     if len(lista_personagens) <= 100:

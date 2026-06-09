@@ -1,8 +1,12 @@
+#hashlib - biblioteca para o uso do sha256
 import hashlib
+#os - biblioteca para verificação de arquivo, serve para evitar erros de arquivos nao encontrados.
 import os
+import time
+
 
 # ─────────────────────────────────────────
-#  CRIPTOGRAFIA
+#  FUNÇÕES DE CRIPTOGRAFIA
 # ─────────────────────────────────────────
 
 def hash1(l):
@@ -29,7 +33,7 @@ def cifra_cezar_reduce(c):
 #  LEITURA - TXT
 # ─────────────────────────────────────────
 
-NOME_ARQUIVO = 'login.py'
+NOME_ARQUIVO = 'login.txt'
 
 def carregar_usuarios():
     """Lê login.py e retorna dicionário {usuario_hash: senha_hash}."""
@@ -74,10 +78,11 @@ def cadastrar():
     print(f'[ ✓ ] Usuário "{novo_usuario}" cadastrado com sucesso!')
 
 # ─────────────────────────────────────────
-#  LOGIN
+#  VAlIDAÇÃO DE USUARIO
 # ─────────────────────────────────────────
 
 def login():
+    """"Função para descriptografar o login e senha, e validar se estão corretos."""
     print('\n[ LOGIN ]')
 
     if not os.path.exists(NOME_ARQUIVO) or os.path.getsize(NOME_ARQUIVO) == 0:
@@ -99,29 +104,58 @@ def login():
         print('\n[ ✗ ] Usuário ou senha incorretos.')
         return False
 
-# ─────────────────────────────────────────
-#  MENU PRINCIPAL
-# ─────────────────────────────────────────
+def salvar_personagem(listinhacsv, personagems):
+    """Salva o dicionario em CSV, usando a função de cifra em todos os campos """
+    try:
+        with open(listinhacsv, 'w', newline='', encoding='utf-8') as f:
+        #Estamos usando 'utf-8' para não ocorrer problema de interpretação
+        # e o 'as f' para facilitar a manipulação do arquivo
+            for id_personagem, atributo in personagems.items():
+                csv_cifrada = []
+                #cifrar o ID de personagem
+                csv_cifrada.append(cifra_cezar_plus(str(id_personagem)))
+                #cifrar os atributos dentro do id
+                for campo in atributo:
+                    csv_cifrada.append(cifra_cezar_plus(str(campo)))
 
-def menu():
-    while True:
-        print('\n================================')
-        print('       SISTEMA DE LOGIN         ')
-        print('================================')
-        print('[1] Criar novo usuário')
-        print('[2] Fazer login')
-        print('[0] Sair')
+                juntas = ";".join(csv_cifrada)
+                f.write(juntas + '\n')
+        print('Personagem(s) salvo com sucesso!')
+    except Exception:
+        print('Erro ao salvar personagem(s).!')
 
-        opcao = input('\nEscolha: ').strip()
+def carregar_personagems(listacsv):
+    """Usado para descriptografar e montar o dicionario corretamente."""
+    personagens = {}
+    try:
+        with open(listacsv, 'r', encoding='utf-8') as f:
+            for campo in f:
+                campo = campo.strip()
+                if not campo:
+                    continue
 
-        if opcao == '1':
-            cadastrar()
-        elif opcao == '2':
-            login()
-        elif opcao == '0':
-            print('Até mais!')
-            break
-        else:
-            print('[ ! ] Opção inválida.')
+                csv_cifrada = campo.split(';')
+                csv_decodificado = []
+                for i in csv_cifrada:
+                    resultado = cifra_cezar_reduce(i)
+                    csv_decodificado.append(resultado)
 
-menu()
+                id_personagem = int(csv_decodificado[0])
+                nome = csv_decodificado[1]
+                habilidade = csv_decodificado[2]
+                pr = float(csv_decodificado[3])
+                special = int(csv_decodificado[4])
+                lendario = csv_decodificado[5] == "True"
+                #true + true = true ; false + true = false
+
+                personagens[id_personagem] = [nome, habilidade, pr, special, lendario]
+            print('Personagem(s) carregados com sucesso!')
+            return personagens
+    except FileNotFoundError:
+        print('Arquivo de personagens não encontrado, Iniciando criaçao de arquivo.')
+        time.sleep(1)
+        return {}
+    except Exception:
+        print('Falha no processo de carregamento de personagem.')
+        time.sleep(1)
+        return {}

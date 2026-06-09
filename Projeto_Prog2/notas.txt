@@ -1,0 +1,6 @@
+-Na função salvar personagem, foi usado uma mecanica que usa processamento em lote, no caso ela só tranfere da ram para o disco no final.
+
+-Funçao carregar_personagem essa função implementa a persistência de dados,
+onde o estado da aplicação é recuperado do armazenamento permanente (CSV)
+para a memória volátil (RAM) no momento da inicialização (pós-login).
+

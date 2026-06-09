@@ -1,6 +1,8 @@
 # ─────────────────────────────────────────
 # CADASTRO, REMOÇÃO, ALTERAÇÃO DOS PRODUTOS
 # ─────────────────────────────────────────
+import time
+
 
 def add_personagem(inventario):
     print('\n[ PERSONAGEM ]')
@@ -14,34 +16,31 @@ def add_personagem(inventario):
         habilidade = input('Habilidade especial: ')
         pr = float(input('Percentual de rendimento: '))
         special = int(input('Special Atk: '))
-        lendario = bool(input('Lendario? [S/N] ')).upper()
-        if lendario == 'N':
-            lendario = False
-        else:
-            lendario = True
-        inventario[id_personagem] = {'nome': nome,
-                                  'Habilidade': habilidade,
-                                  'PR': pr,
-                                  'SpecialAtk': special,
-                                  'Lendario': lendario
-                                  }
+        resp = input('Lendário? [S/N]: ').strip().upper()
+        lendario = True if resp == 'S' else False
+
+        inventario[id_personagem] = [nome, habilidade, pr, special, lendario]
+
         print('Personagem adicionado com sucesso!')
 
     except ValueError:
         print('ERROR, Entrada invalida!!!, ID e SpecialAtk precisam ser numeros inteiros, o PR precisa ser um numero '
               'e o Lendario deve ser "S" OU "N"')
+        time.sleep(1.5)
+
 
 def remov_personagem(inventario):
-    print('\n[REMOVER PERSONAGEM ]')
+    print('\n[ REMOVER PERSONAGEM ]')
     try:
         id_produto = int(input('Digite o ID do personagem a ser removido: '))
         if id_produto in inventario:
-            inventario.pop(id_produto)
-            print(f'personagem {inventario[id_produto]['nome']} removido com sucesso!')
+            personagem_removido = inventario.pop(id_produto)
+
+            print(f"Personagem '{personagem_removido[0]}' removido com sucesso!")
         else:
             print('Personagem não encontrado!')
     except ValueError:
-        print('VALOR INVALIDO')
+        print('VALOR INVÁLIDO. Digite apenas números inteiros.')
 
 def atualizar_personagem(personagens, id_personagem, nome, habilidade, pr, special, lendario):
     personagens[id_personagem] = [nome, habilidade, pr, special, lendario]
@@ -74,4 +73,6 @@ def solicitar_atualizacao(personagens):
 def valor_total_personagem(valor):
     """Retorna o número total de personagens da galeria."""
     quantidade = len(valor)
-    print(f"\n[i] Quantidade total de personagens: {quantidade}")
+    print(f"\nQuantidade total de personagens: {quantidade}\n")
+    time.sleep(1.5)
+

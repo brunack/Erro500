@@ -2,15 +2,9 @@ import time
 import csv
 from LockCipher import *
 from CRUDE import *
+from busca_ordenacao import *
 
 
-personagens = {id:['Nome','Habilidade','PR','SpecialAtk','Lendario']}
-
-def salvar_csv(caminho: str = personagens) -> None:
-    """Salva o catálogo atual no arquivo CSV com separador ';'."""
-    with open(caminho, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f, delimiter=";")
-        writer.writerow(["ID","Marca", "Nome", "Quantidade", "Preço", "Importado"])
 
 def baner():
     print(r"""
@@ -28,14 +22,15 @@ baner()
 
 
 #MENU PARA CADASTRO - REMOÇÃO - ALTERAÇÃO.
-def cadastro_crude():
+def cadastro_crude(personagens):
     while True:
         print('ESCOLHA UMA DA OPÇÕES ABAIXO!')
         print('[1]PARA ADICIONAR PERSONAGEM')
         print('[2]PARA ATUALIZAR PERSONAGEM')
         print('[3]PARA REMOVER PERSONAGEM')
         print('[4]VALOR TOTAL DE PERSONAGEM(S)')
-        print('[5]SAIR E SALVAR')
+        print('[5]LISTA DETALHADA DE PERSONAGEM(S)')
+        print('[0]SAIR E SALVAR')
 
         opcao = input('Digite a opção desejada: ')
 
@@ -48,7 +43,9 @@ def cadastro_crude():
         elif opcao == '4':
             valor_total_personagem(personagens)
         elif opcao == '5':
-            salvar_personagem(personagens)
+            listar_detalhada(personagens)
+        elif opcao == '0':
+            salvar_personagem('inventario.csv', personagens)
 
             break
         else:
@@ -74,7 +71,8 @@ def main():
             if login():
                 print('Acesso autorizado')
                 time.sleep(2)
-                cadastro_crude()
+                personagens = carregar_personagems('inventario.csv')
+                cadastro_crude(personagens)
             else:
                 print('Usuario ou senha invalidas')
                 time.sleep(1)

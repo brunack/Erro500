@@ -175,6 +175,18 @@ def salvar_usuario(usuario_hash, senha_hash):
 
 
 def cadastrar():
+    """
+        Função responsável por registrar um novo usuário no sistema de login.
+
+        Entrada:
+        - Nenhuma (os dados de usuário e senha são solicitados interativamente).
+
+        Ação:
+        - Recebe os dados de acesso.
+        - Aplica criptografia em duas camadas (Cifra de César seguida de SHA-256).
+        - Verifica se o nome de usuário já está registrado.
+        - Salva as credenciais protegidas de forma persistente.
+        """
 
     print('\n[ CADASTRO ]')
 
@@ -311,11 +323,21 @@ def salvar_personagem(listinhacsv, personagems):
 # ─────────────────────────────────────────
 
 def carregar_personagems(listacsv):
+    """
+        Função responsável por resgatar, descriptografar e estruturar os dados do banco de dados.
 
-    """
-    Entrada:
-    - listacsv: nome do arquivo CSV.
-    """
+        Entrada:
+        - listacsv: string contendo o nome/caminho do arquivo de texto (CSV) a ser lido.
+
+        Ação:
+        - Abre o arquivo especificado e lê os dados linha por linha.
+        - Quebra as linhas criptografadas e reverte a Cifra de César em cada campo.
+        - Converte os valores textuais de volta para seus tipos de dados originais (int, float, bool).
+        - Remonta a estrutura de Dicionário contendo Listas exigida pelo sistema.
+
+        Saída:
+        - Retorna o dicionário 'personagens' populado. Retorna um dicionário vazio {} em caso de falha ou se for o primeiro acesso.
+        """
 
     personagens = {}
 

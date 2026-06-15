@@ -33,18 +33,17 @@ def remover_acentos(texto):
         'ignore'
     ).decode('utf-8')
 
-
 # ─────────────────────────────────────────
 # LISTAGEM DE PERSONAGENS
 # Objetivo: Exibir todos os personagens cadastrados.
 # ─────────────────────────────────────────
 
 def listar_detalhada(personagens):
-
     """
-    Entrada:
-    - personagens: dicionário contendo os dados dos personagens.
-    """
+        Objetivo: Exibir no terminal a galeria completa de personagens formatada em tabela.
+        Entrada: personagens (dicionário principal).
+        Saída: Nenhuma (Apenas impressão visual).
+        """
 
     print(
         f"\n{'ID':<8} | {'Nome':<15} | {'PR':<8} | "
@@ -98,6 +97,11 @@ def listar_detalhada(personagens):
 # ─────────────────────────────────────────
 
 def menu_busca_personagem(personagens):
+    """
+        Objetivo: Interface interativa para o usuário escolher o método de pesquisa.
+        Entrada: personagens (dicionário principal).
+        Ação: Solicita o nome, chama o algoritmo escolhido (Linear ou Binário) e exibe o resultado.
+        """
 
     print('\n[ BUSCA DE PERSONAGEM ]')
 
@@ -182,7 +186,10 @@ def menu_busca_personagem(personagens):
 # FUNÇÃO: Trocar elementos de posição
 
 def troca(L, i, j):
-
+    """
+        Objetivo: Inverter a posição de dois itens dentro de uma lista.
+        Entrada: L (lista), i (índice 1), j (índice 2).
+        """
     """
     Entrada:
     - L: lista principal.
@@ -247,7 +254,10 @@ def bubble_sort_personagens(L):
 # FUNÇÃO: Mesclar listas ordenadas
 
 def mescla_personagens(L, i, m, f):
-
+    """
+        Objetivo: Função auxiliar do Merge Sort. Junta duas metades de uma lista mantendo a ordem alfabética.
+        Entrada: L (lista principal), i (início), m (meio), f (fim).
+        """
     """
     Entrada:
     - L: lista principal.
@@ -319,6 +329,11 @@ def merge_sort_recursivo(L, i, f):
 # FUNÇÃO: Inicializar o Merge Sort
 
 def msort_personagens(L):
+    """
+        Objetivo: Inicializa e executa o algoritmo Merge Sort para listas grandes (> 100 itens).
+        Entrada: L (lista de personagens não ordenada).
+        Saída: Retorna a lista L ordenada.
+        """
 
     merge_sort_recursivo(
         L,
@@ -335,6 +350,11 @@ def msort_personagens(L):
 # ─────────────────────────────────────────
 
 def ordenar_automatico(personagens):
+    """
+        Objetivo: Gerenciar qual algoritmo de ordenação usar baseado no tamanho do banco de dados.
+        Entrada: personagens (dicionário principal).
+        Saída: Retorna uma lista de tuplas ordenada alfabeticamente.
+        """
 
     """
     Processamento:
@@ -370,6 +390,11 @@ def ordenar_automatico(personagens):
 # ─────────────────────────────────────────
 
 def busca_binaria(lista_ordenada, nome):
+    """
+        Objetivo: Encontrar um personagem rapidamente usando divisão e conquista.
+        Entrada: lista_ordenada (lista pré-ordenada), nome (string do alvo).
+        Saída: Retorna a tupla do personagem se encontrado, ou None se não existir.
+        """
 
     """
     Importante:
@@ -417,6 +442,11 @@ def busca_binaria(lista_ordenada, nome):
 # ─────────────────────────────────────────
 
 def busca_linear(personagens, nome):
+    """
+        Objetivo: Encontrar um personagem vasculhando o dicionário item por item.
+        Entrada: personagens (dicionário principal), nome (string do alvo).
+        Saída: Nenhuma (Imprime o resultado diretamente na tela).
+        """
 
     nome_alvo = remover_acentos(
         nome.lower()

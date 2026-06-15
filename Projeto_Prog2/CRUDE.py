@@ -11,14 +11,11 @@ import time
 # Objetivo: Solicitar os dados do personagem e armazená-los no inventário.
 
 def add_personagem(inventario):
-
-    print('\n[ PERSONAGEM ]')
-
     """
     Entrada:
     - inventario: dicionário que armazena todos os personagens cadastrados.
     """
-
+    print('\n[ PERSONAGEM ]')
     try:
 
         # Solicita o ID do personagem
@@ -67,13 +64,20 @@ def add_personagem(inventario):
 # Objetivo: Excluir um personagem utilizando seu ID.
 
 def remov_personagem(inventario):
+    """
+        Função responsável por excluir um personagem do inventário atual.
+
+        Entrada:
+        - inventario: dicionário contendo os personagens cadastrados no sistema.
+
+        Ação:
+        - Solicita interativamente o ID numérico do personagem a ser removido.
+        - Verifica a existência do ID no dicionário fornecido.
+        - Remove o registro do dicionário caso encontrado (utilizando o método .pop()).
+        - Confirma a exclusão exibindo o nome do personagem removido.
+        """
 
     print('\n[ REMOVER PERSONAGEM ]')
-
-    """
-    Entrada:
-    - inventario: dicionário contendo os personagens cadastrados.
-    """
 
     try:
 

@@ -6,7 +6,6 @@
 
 import time
 
-
 # FUNÇÃO: Adicionar um novo personagem ao inventário
 # Objetivo: Solicitar os dados do personagem e armazená-los no inventário.
 

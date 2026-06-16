@@ -275,6 +275,7 @@ def login():
 # Objetivo: Armazenar os personagens em um arquivo CSV.
 # ─────────────────────────────────────────
 
+
 def salvar_personagem(listinhacsv, personagems):
 
     """

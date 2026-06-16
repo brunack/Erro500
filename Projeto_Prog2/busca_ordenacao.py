@@ -475,6 +475,7 @@ def busca_linear(personagens, nome):
             else 'Comum'
         )
 
+
         # Verifica se os nomes são iguais
         if nome3 == nome_alvo:
 
